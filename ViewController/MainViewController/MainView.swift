@@ -1,5 +1,5 @@
 //
-//  AppDelegate.swift
+//  MainView.swift
 //  ProfileApp
 //
 //  Created by Дмитрий on 21.02.2025.
@@ -29,7 +29,7 @@ final class MainView: UIView {
     
     private lazy var personalDataTitle: UILabel = {
         var view = UILabel()
-        view.font = UIFont.systemFont(ofSize: 18)
+        view.font = UIFont.systemFont(ofSize: 18.0.fit)
         view.textColor = .lightGray
         view.numberOfLines = 1
         view.textAlignment = .left
@@ -40,7 +40,7 @@ final class MainView: UIView {
     
     private lazy var nameTitle: UILabel = {
         var view = UILabel()
-        view.font = UIFont.systemFont(ofSize: 16)
+        view.font = UIFont.systemFont(ofSize: 16.0.fit)
         view.textColor = .lightGray
         view.numberOfLines = 1
         view.textAlignment = .left
@@ -51,7 +51,7 @@ final class MainView: UIView {
     
     public lazy var nameTextField: CustomTextField = {
         var view = CustomTextField()
-        view.font = UIFont.systemFont(ofSize: 18)
+        view.font = UIFont.systemFont(ofSize: 18.0.fit)
         view.textColor = .white
         view.backgroundColor = .systemGray4
         view.textColor = .white
@@ -60,33 +60,33 @@ final class MainView: UIView {
         view.placeholder = "Имя"
         view.clearButtonMode = .whileEditing
         view.layer.cornerCurve = .continuous
-        view.layer.cornerRadius = 12.0
+        view.layer.cornerRadius = 12.0.fit
         view.autocapitalizationType = .words
         view.keyboardType = .default
-        view.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 50.0.fit).isActive = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private lazy var nameTextFieldStackView: UIStackView = {
         var view = UIStackView(arrangedSubviews: [nameTitle, nameTextField])
-        view.layoutMargins = UIEdgeInsets(top: 10.0, left: 20.0, bottom: 20.0, right: 20.0)
+        view.layoutMargins = UIEdgeInsets(top: 10.0.fit, left: 20.0.fit, bottom: 20.0.fit, right: 20.0.fit)
         view.isLayoutMarginsRelativeArrangement = true
         view.axis = .vertical
         view.distribution = .fill
         view.alignment = .fill
-        view.spacing = 10.0
+        view.spacing = 10.0.fit
         view.layer.cornerCurve = .continuous
-        view.layer.cornerRadius = 12.0
+        view.layer.cornerRadius = 12.0.fit
         view.layer.borderColor = UIColor.systemGray4.cgColor
-        view.layer.borderWidth = 1.0
+        view.layer.borderWidth = 1.0.fit
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private lazy var ageTitle: UILabel = {
         var view = UILabel()
-        view.font = UIFont.systemFont(ofSize: 16)
+        view.font = UIFont.systemFont(ofSize: 16.0.fit)
         view.textColor = .lightGray
         view.numberOfLines = 1
         view.textAlignment = .left
@@ -97,7 +97,7 @@ final class MainView: UIView {
     
     public lazy var ageTextField: CustomTextField = {
         var view = CustomTextField()
-        view.font = UIFont.systemFont(ofSize: 18)
+        view.font = UIFont.systemFont(ofSize: 18.0.fit)
         view.textColor = .white
         view.backgroundColor = .systemGray4
         view.textColor = .white
@@ -106,26 +106,26 @@ final class MainView: UIView {
         view.placeholder = "Возраст"
         view.clearButtonMode = .whileEditing
         view.layer.cornerCurve = .continuous
-        view.layer.cornerRadius = 12.0
+        view.layer.cornerRadius = 12.0.fit
         view.autocapitalizationType = .words
         view.keyboardType = .numberPad
-        view.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 50.0.fit).isActive = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private lazy var ageTextFieldStackView: UIStackView = {
         var view = UIStackView(arrangedSubviews: [ageTitle, ageTextField])
-        view.layoutMargins = UIEdgeInsets(top: 10.0, left: 20.0, bottom: 20.0, right: 20.0)
+        view.layoutMargins = UIEdgeInsets(top: 10.0.fit, left: 20.0.fit, bottom: 20.0.fit, right: 20.0.fit)
         view.isLayoutMarginsRelativeArrangement = true
         view.axis = .vertical
         view.distribution = .fill
         view.alignment = .fill
-        view.spacing = 10.0
+        view.spacing = 10.0.fit
         view.layer.cornerCurve = .continuous
-        view.layer.cornerRadius = 12.0
+        view.layer.cornerRadius = 12.0.fit
         view.layer.borderColor = UIColor.systemGray4.cgColor
-        view.layer.borderWidth = 1.0
+        view.layer.borderWidth = 1.0.fit
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -135,14 +135,14 @@ final class MainView: UIView {
         view.axis = .vertical
         view.distribution = .fill
         view.alignment = .fill
-        view.spacing = 20.0
+        view.spacing = 20.0.fit
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private lazy var childrenTitle: UILabel = {
         var view = UILabel()
-        view.font = UIFont.systemFont(ofSize: 18)
+        view.font = UIFont.systemFont(ofSize: 18.0.fit)
         view.textColor = .lightGray
         view.numberOfLines = 1
         view.textAlignment = .left
@@ -157,17 +157,17 @@ final class MainView: UIView {
         view.configuration?.baseForegroundColor = .white
         view.configuration?.background.backgroundColor = .systemBlue
         view.configuration?.title = "Добавить ребёнка"
-        view.configuration?.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 15.0, bottom: .zero, trailing: 15.0)
+        view.configuration?.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 15.0.fit, bottom: .zero, trailing: 15.0.fit)
         view.configuration?.titleTextAttributesTransformer =
         UIConfigurationTextAttributesTransformer { container in
             var transformer = container
-            transformer.font = UIFont.systemFont(ofSize: 16.0)
+            transformer.font = UIFont.systemFont(ofSize: 16.0.fit)
             return transformer
         }
         view.configuration?.image = UIImage(systemName: "plus")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
-        view.configuration?.imagePadding = 10.0
+        view.configuration?.imagePadding = 10.0.fit
         view.configuration?.cornerStyle = .capsule
-        view.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 50.0.fit).isActive = true
         view.addTarget(self, action: #selector(addChildButtonTapped), for: .touchUpInside)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -194,7 +194,7 @@ final class MainView: UIView {
         view.axis = .horizontal
         view.distribution = .fill
         view.alignment = .fill
-        view.spacing = 20.0
+        view.spacing = 20.0.fit
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -205,15 +205,15 @@ final class MainView: UIView {
         view.configuration?.baseForegroundColor = .white
         view.configuration?.background.backgroundColor = .systemRed
         view.configuration?.title = "Очистить"
-        view.configuration?.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 30.0, bottom: .zero, trailing: 30.0)
+        view.configuration?.contentInsets = NSDirectionalEdgeInsets(top: .zero, leading: 30.0.fit, bottom: .zero, trailing: 30.0.fit)
         view.configuration?.titleTextAttributesTransformer =
         UIConfigurationTextAttributesTransformer { container in
             var transformer = container
-            transformer.font = UIFont.systemFont(ofSize: 16.0)
+            transformer.font = UIFont.systemFont(ofSize: 16.0.fit)
             return transformer
         }
         view.configuration?.cornerStyle = .capsule
-        view.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 50.0.fit).isActive = true
         view.isHidden = true
         view.addTarget(self, action: #selector(deleteAllChildButtonTapped), for: .touchUpInside)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -222,7 +222,7 @@ final class MainView: UIView {
     
     private lazy var deleteAllChildButtonStackView: UIStackView = {
         var view = UIStackView(arrangedSubviews: [deleteAllChildButton])
-        view.layoutMargins = UIEdgeInsets(top: .zero, left: 60.0, bottom: .zero, right: 60.0)
+        view.layoutMargins = UIEdgeInsets(top: .zero, left: 60.0.fit, bottom: .zero, right: 60.0.fit)
         view.isLayoutMarginsRelativeArrangement = true
         view.axis = .vertical
         view.distribution = .fill
@@ -236,19 +236,19 @@ final class MainView: UIView {
         view.axis = .vertical
         view.distribution = .fill
         view.alignment = .fill
-        view.spacing = 20.0
+        view.spacing = 20.0.fit
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20.0),
-            stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20.0),
-            stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20.0),
+            stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20.0.fit),
+            stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20.0.fit),
+            stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20.0.fit),
             stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             
-            childrenTableView.bottomAnchor.constraint(equalTo: deleteAllChildButton.topAnchor, constant: -20.0)
+            childrenTableView.bottomAnchor.constraint(equalTo: deleteAllChildButton.topAnchor, constant: -20.0.fit)
         ])
     }
     

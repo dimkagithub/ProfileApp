@@ -65,48 +65,6 @@ final class MainViewController: UIViewController {
     @objc func hideKeyboard() {
         mainView.endEditing(true)
     }
-}
-
-extension MainViewController: MainViewDelegate {
-    
-    func addChildButtonTapped(sender: UIButton) {
-        hideKeyboard()
-        sender.pulsate(from: 1.0, to: 0.9, speed: 2.0, reverse: true, completion: {
-            self.child.append(Child(name: "", age: .zero))
-            self.mainView.childrenTableView.reloadData()
-            DispatchQueue.main.async {
-                self.mainView.childrenTableView.scrollToRow(at: IndexPath(row: self.child.count - 1, section: .zero), at: .bottom, animated: true)
-            }
-            sender.isEnabled = self.child.count < 5  ? true : false
-            sender.imageView?.alpha = self.child.count < 5  ? 1.0 : 0.2
-        })
-    }
-    
-    func deleteChildButtonTapped(sender: UIButton) {
-        hideKeyboard()
-        sender.pulsate(from: 1.0, to: 0.9, speed: 2.0, reverse: true, completion: {
-            let position: CGPoint = sender.convert(.zero, to: self.mainView.childrenTableView)
-            let indexPath = self.mainView.childrenTableView.indexPathForRow(at: position) ?? IndexPath(row: .zero, section: .zero)
-            self.child.remove(at: indexPath.row)
-            self.mainView.childrenTableView.deleteRows(at: [indexPath], with: .middle)
-            DispatchQueue.main.async {
-                UIView.performWithoutAnimation({
-                    self.mainView.childrenTableView.reloadSections(IndexSet(integer: .zero), with: .none)
-                    self.mainView.childrenTableView.beginUpdates()
-                    self.mainView.childrenTableView.endUpdates()
-                })
-            }
-            self.mainView.addChildButton.isEnabled = self.child.count < 5  ? true : false
-            self.mainView.addChildButton.imageView?.alpha = self.child.count < 5  ? 1.0 : 0.2
-        })
-    }
-    
-    func deleteAllChildButtonTapped(sender: UIButton) {
-        hideKeyboard()
-        sender.pulsate(from: 1.0, to: 0.9, speed: 2.0, reverse: true, completion: {
-            self.showAlert()
-        })
-    }
     
     private func showAlert() {
         let alertController = UIAlertController(title: "Внимание", message: "Действительно хотите удалить все записи?", preferredStyle: .actionSheet)
@@ -120,18 +78,69 @@ extension MainViewController: MainViewDelegate {
         present(alertController, animated: true)
     }
     
-    private func clearData() {
-        self.child.removeAll()
+    private func add(sender: UIButton) {
+        self.child.append(Child(name: "", age: .zero))
+        self.mainView.childrenTableView.reloadData()
         DispatchQueue.main.async {
-            UIView.performWithoutAnimation({
-                self.mainView.childrenTableView.reloadSections(IndexSet(integer: .zero), with: .none)
-                self.mainView.childrenTableView.beginUpdates()
-                self.mainView.childrenTableView.endUpdates()
-            })
+            self.mainView.childrenTableView.scrollToRow(at: IndexPath(row: self.child.count - 1, section: .zero), at: .bottom, animated: true)
         }
-        self.mainView.addChildButton.isEnabled = true
-        self.mainView.addChildButton.imageView?.alpha = 1.0
-        self.mainView.deleteAllChildButton.isHidden = true
+        sender.isEnabled = self.child.count < 5 ? true : false
+        sender.imageView?.alpha = self.child.count < 5  ? 1.0 : 0.2
+    }
+    
+    private func delete(indexPath: IndexPath) {
+        self.child.remove(at: indexPath.row)
+        self.mainView.childrenTableView.deleteRows(at: [indexPath], with: .middle)
+        self.mainView.childrenTableView.reloadData()
+        self.mainView.addChildButton.isEnabled = self.child.count < 5  ? true : false
+        self.mainView.addChildButton.imageView?.alpha = self.child.count < 5  ? 1.0 : 0.2
+    }
+    
+    private func clearData() {
+        UIView.animate(withDuration: 0.5) {
+            self.mainView.childrenTableView.alpha = .zero
+            self.mainView.deleteAllChildButton.alpha = .zero
+        } completion: { _ in
+            self.child.removeAll()
+            DispatchQueue.main.async {
+                UIView.performWithoutAnimation({
+                    self.mainView.childrenTableView.reloadSections(IndexSet(integer: .zero), with: .none)
+                    self.mainView.childrenTableView.beginUpdates()
+                    self.mainView.childrenTableView.endUpdates()
+                })
+            }
+            self.mainView.addChildButton.isEnabled = true
+            self.mainView.addChildButton.imageView?.alpha = 1.0
+            self.mainView.deleteAllChildButton.isHidden = true
+            self.mainView.childrenTableView.alpha = 1.0
+            self.mainView.deleteAllChildButton.alpha = 1.0
+        }
+    }
+}
+
+extension MainViewController: MainViewDelegate {
+    
+    func addChildButtonTapped(sender: UIButton) {
+        hideKeyboard()
+        sender.pulsate(from: 1.0, to: 0.9, speed: 2.0, reverse: true, completion: {
+            self.add(sender: sender)
+        })
+    }
+    
+    func deleteChildButtonTapped(sender: UIButton) {
+        hideKeyboard()
+        let position: CGPoint = sender.convert(.zero, to: self.mainView.childrenTableView)
+        let indexPath = self.mainView.childrenTableView.indexPathForRow(at: position) ?? IndexPath(row: .zero, section: .zero)
+        sender.pulsate(from: 1.0, to: 0.9, speed: 2.0, reverse: true, completion: {
+            self.delete(indexPath: indexPath)
+        })
+    }
+    
+    func deleteAllChildButtonTapped(sender: UIButton) {
+        hideKeyboard()
+        sender.pulsate(from: 1.0, to: 0.9, speed: 2.0, reverse: true, completion: {
+            self.showAlert()
+        })
     }
 }
 
@@ -163,24 +172,28 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         (cell as? ChildrenTableViewCell)?.configure(name: child[indexPath.row].name, age: child[indexPath.row].age)
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return .zero
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return UIView()
-    }
-    
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50.0
+        return 50.0.fit
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 50.0
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: nil, handler: { (action, view, completionHandler) in
+            self.delete(indexPath: indexPath)
+            completionHandler(true)
+        })
+        delete.image = UIImage(systemName: "trash")?.withTintColor(.systemRed, renderingMode: .alwaysOriginal)
+        delete.backgroundColor = .systemGray6
+        var configuration = UISwipeActionsConfiguration()
+        configuration = UISwipeActionsConfiguration(actions: [delete])
+        return configuration
     }
 }
 
@@ -193,7 +206,7 @@ extension MainViewController: UITextFieldDelegate {
         if textField == cell.nameTextField {
             child[indexPath.row].name = textField.text ?? ""
         } else {
-            child[indexPath.row].age = Int(textField.text ?? "") ?? 0
+            child[indexPath.row].age = Int(textField.text ?? "") ?? .zero
         }
     }
 }

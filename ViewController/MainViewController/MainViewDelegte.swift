@@ -1,5 +1,5 @@
 //
-//  AppDelegate.swift
+//  MainViewDelegte.swift
 //  ProfileApp
 //
 //  Created by Дмитрий on 21.02.2025.

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A3260782D6BABB0001E9CE9 /* BinaryFloatingPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3260772D6BABB0001E9CE9 /* BinaryFloatingPoint.swift */; };
 		0A377E752D68CB3E004D7373 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A377E742D68CB3E004D7373 /* MainViewController.swift */; };
 		0A377E882D68CD5D004D7373 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A377E872D68CD5D004D7373 /* MainView.swift */; };
 		0A377E8A2D68CD62004D7373 /* MainViewDelegte.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A377E892D68CD62004D7373 /* MainViewDelegte.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A3260772D6BABB0001E9CE9 /* BinaryFloatingPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinaryFloatingPoint.swift; sourceTree = "<group>"; };
 		0A377E6D2D68CB3E004D7373 /* ProfileApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProfileApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A377E742D68CB3E004D7373 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0A377E872D68CD5D004D7373 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 		0A377E8B2D68D44C004D7373 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				0A3260772D6BABB0001E9CE9 /* BinaryFloatingPoint.swift */,
 				0A377E922D68DD97004D7373 /* UITableView.swift */,
 				0A377E8C2D68D454004D7373 /* UITextField.swift */,
 				0A377E8E2D68DBED004D7373 /* UIView.swift */,
@@ -199,6 +202,7 @@
 				0A377E8A2D68CD62004D7373 /* MainViewDelegte.swift in Sources */,
 				0A377E8F2D68DBED004D7373 /* UIView.swift in Sources */,
 				0A377E932D68DD97004D7373 /* UITableView.swift in Sources */,
+				0A3260782D6BABB0001E9CE9 /* BinaryFloatingPoint.swift in Sources */,
 				0A377E8D2D68D454004D7373 /* UITextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,8 +11,8 @@ extension UIView {
     
     func pulsate(from: Float, to: Float, speed: Float, reverse: Bool, completion: @escaping() -> Void) {
         let pulse = CASpringAnimation(keyPath: "transform.scale")
-        pulse.fromValue = from
-        pulse.toValue = to
+        pulse.fromValue = from.fit
+        pulse.toValue = to.fit
         pulse.speed = speed
         pulse.autoreverses = reverse
         layer.add(pulse, forKey: nil)

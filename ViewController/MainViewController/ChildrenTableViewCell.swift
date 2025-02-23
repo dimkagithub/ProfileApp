@@ -43,7 +43,7 @@ final class ChildrenTableViewCell: UITableViewCell {
     
     private lazy var nameTitle: UILabel = {
         var view = UILabel()
-        view.font = UIFont.systemFont(ofSize: 16)
+        view.font = UIFont.systemFont(ofSize: 16.0.fit)
         view.textColor = .lightGray
         view.numberOfLines = 1
         view.textAlignment = .left
@@ -54,7 +54,7 @@ final class ChildrenTableViewCell: UITableViewCell {
     
     public lazy var nameTextField: CustomTextField = {
         var view = CustomTextField()
-        view.font = UIFont.systemFont(ofSize: 18)
+        view.font = UIFont.systemFont(ofSize: 18.0.fit)
         view.textColor = .white
         view.backgroundColor = .systemGray4
         view.textColor = .white
@@ -63,7 +63,7 @@ final class ChildrenTableViewCell: UITableViewCell {
         view.placeholder = "Имя"
         view.clearButtonMode = .whileEditing
         view.layer.cornerCurve = .continuous
-        view.layer.cornerRadius = 12.0
+        view.layer.cornerRadius = 12.0.fit
         view.autocapitalizationType = .words
         view.keyboardType = .default
         view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -74,23 +74,23 @@ final class ChildrenTableViewCell: UITableViewCell {
     
     private lazy var nameTextFieldStackView: UIStackView = {
         var view = UIStackView(arrangedSubviews: [nameTitle, nameTextField])
-        view.layoutMargins = UIEdgeInsets(top: 10.0, left: 20.0, bottom: 20.0, right: 20.0)
+        view.layoutMargins = UIEdgeInsets(top: 10.0.fit, left: 20.0.fit, bottom: 20.0.fit, right: 20.0.fit)
         view.isLayoutMarginsRelativeArrangement = true
         view.axis = .vertical
         view.distribution = .fill
         view.alignment = .fill
-        view.spacing = 10.0
+        view.spacing = 10.0.fit
         view.layer.cornerCurve = .continuous
-        view.layer.cornerRadius = 12.0
+        view.layer.cornerRadius = 12.0.fit
         view.layer.borderColor = UIColor.systemGray4.cgColor
-        view.layer.borderWidth = 1.0
+        view.layer.borderWidth = 1.0.fit
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private lazy var ageTitle: UILabel = {
         var view = UILabel()
-        view.font = UIFont.systemFont(ofSize: 16)
+        view.font = UIFont.systemFont(ofSize: 16.0.fit)
         view.textColor = .lightGray
         view.numberOfLines = 1
         view.textAlignment = .left
@@ -101,7 +101,7 @@ final class ChildrenTableViewCell: UITableViewCell {
     
     public lazy var ageTextField: CustomTextField = {
         var view = CustomTextField()
-        view.font = UIFont.systemFont(ofSize: 18)
+        view.font = UIFont.systemFont(ofSize: 18.0.fit)
         view.textColor = .white
         view.backgroundColor = .systemGray4
         view.textColor = .white
@@ -110,7 +110,7 @@ final class ChildrenTableViewCell: UITableViewCell {
         view.placeholder = "Возраст"
         view.clearButtonMode = .whileEditing
         view.layer.cornerCurve = .continuous
-        view.layer.cornerRadius = 12.0
+        view.layer.cornerRadius = 12.0.fit
         view.autocapitalizationType = .words
         view.keyboardType = .numberPad
         view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -121,16 +121,16 @@ final class ChildrenTableViewCell: UITableViewCell {
     
     private lazy var ageTextFieldStackView: UIStackView = {
         var view = UIStackView(arrangedSubviews: [ageTitle, ageTextField])
-        view.layoutMargins = UIEdgeInsets(top: 10.0, left: 20.0, bottom: 20.0, right: 20.0)
+        view.layoutMargins = UIEdgeInsets(top: 10.0.fit, left: 20.0.fit, bottom: 20.0.fit, right: 20.0.fit)
         view.isLayoutMarginsRelativeArrangement = true
         view.axis = .vertical
         view.distribution = .fill
         view.alignment = .fill
-        view.spacing = 10.0
+        view.spacing = 10.0.fit
         view.layer.cornerCurve = .continuous
-        view.layer.cornerRadius = 12.0
+        view.layer.cornerRadius = 12.0.fit
         view.layer.borderColor = UIColor.systemGray4.cgColor
-        view.layer.borderWidth = 1.0
+        view.layer.borderWidth = 1.0.fit
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -140,7 +140,7 @@ final class ChildrenTableViewCell: UITableViewCell {
         view.axis = .vertical
         view.distribution = .fill
         view.alignment = .fill
-        view.spacing = 20.0
+        view.spacing = 20.0.fit
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -154,10 +154,11 @@ final class ChildrenTableViewCell: UITableViewCell {
         view.configuration?.titleTextAttributesTransformer =
         UIConfigurationTextAttributesTransformer { container in
             var transformer = container
-            transformer.font = UIFont.systemFont(ofSize: 16.0)
+            transformer.font = UIFont.systemFont(ofSize: 16.0.fit)
             return transformer
         }
-        view.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        view.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        view.heightAnchor.constraint(equalToConstant: 50.0.fit).isActive = true
         view.addTarget(self, action: #selector(deleteChildButtonTapped), for: .touchUpInside)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -175,7 +176,7 @@ final class ChildrenTableViewCell: UITableViewCell {
     private lazy var stackView: UIStackView = {
         var view = UIStackView(arrangedSubviews: [textFieldStackView, deleteChildButtonStackView])
         view.axis = .horizontal
-        view.distribution = .fillProportionally
+        view.distribution = .fill
         view.alignment = .fill
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -183,10 +184,10 @@ final class ChildrenTableViewCell: UITableViewCell {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15.0),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15.0.fit),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15.0)
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15.0.fit)
         ])
     }
     
