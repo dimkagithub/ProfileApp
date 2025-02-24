@@ -199,7 +199,7 @@ final class MainView: UIView {
         return view
     }()
     
-    public lazy var deleteAllChildButton: UIButton = {
+    private lazy var deleteAllChildButton: UIButton = {
         var view = UIButton()
         view.configuration = .borderedTinted()
         view.configuration?.baseForegroundColor = .white
@@ -214,13 +214,12 @@ final class MainView: UIView {
         }
         view.configuration?.cornerStyle = .capsule
         view.heightAnchor.constraint(equalToConstant: 50.0.fit).isActive = true
-        view.isHidden = true
         view.addTarget(self, action: #selector(deleteAllChildButtonTapped), for: .touchUpInside)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private lazy var deleteAllChildButtonStackView: UIStackView = {
+    public lazy var deleteAllChildButtonStackView: UIStackView = {
         var view = UIStackView(arrangedSubviews: [deleteAllChildButton])
         view.layoutMargins = UIEdgeInsets(top: .zero, left: 60.0.fit, bottom: .zero, right: 60.0.fit)
         view.isLayoutMarginsRelativeArrangement = true
@@ -232,7 +231,7 @@ final class MainView: UIView {
     }()
     
     public lazy var stackView: UIStackView = {
-        var view = UIStackView(arrangedSubviews: [textFieldStackView, childrenStackView, childrenTableView, deleteAllChildButtonStackView])
+        var view = UIStackView(arrangedSubviews: [textFieldStackView, childrenStackView, childrenTableView])
         view.axis = .vertical
         view.distribution = .fill
         view.alignment = .fill
@@ -246,9 +245,7 @@ final class MainView: UIView {
             stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20.0.fit),
             stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20.0.fit),
             stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -20.0.fit),
-            stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            
-            childrenTableView.bottomAnchor.constraint(equalTo: deleteAllChildButton.topAnchor, constant: -20.0.fit)
+            stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     

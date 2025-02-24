@@ -47,7 +47,7 @@ final class MainViewController: UIViewController {
     @objc func keyboardWasShown(notification: Notification) {
         let info = notification.userInfo! as NSDictionary
         let keyboardSize = (info.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue).cgRectValue.size
-        let contentInsets = UIEdgeInsets(top: .zero, left: .zero, bottom: self.child.count < 5 ? keyboardSize.height : keyboardSize.height - mainView.deleteAllChildButton.bounds.height, right: .zero)
+        let contentInsets = UIEdgeInsets(top: .zero, left: .zero, bottom: self.child.count < 5 ? keyboardSize.height : keyboardSize.height - mainView.deleteAllChildButtonStackView.bounds.height, right: .zero)
         mainView.childrenTableView.contentInset = contentInsets
         mainView.childrenTableView.scrollIndicatorInsets = contentInsets
     }
@@ -79,27 +79,56 @@ final class MainViewController: UIViewController {
     }
     
     private func add(sender: UIButton) {
-        self.child.append(Child(name: "", age: .zero))
-        self.mainView.childrenTableView.reloadData()
+        mainView.childrenTableView.alpha = 1.0
+        child.append(Child(name: "", age: .zero))
+        DispatchQueue.main.async {
+            UIView.performWithoutAnimation {
+                self.mainView.childrenTableView.reloadSections(IndexSet(integer: .zero), with: .none)
+                self.mainView.childrenTableView.beginUpdates()
+                self.mainView.childrenTableView.endUpdates()
+            }
+        }
         DispatchQueue.main.async {
             self.mainView.childrenTableView.scrollToRow(at: IndexPath(row: self.child.count - 1, section: .zero), at: .bottom, animated: true)
         }
         sender.isEnabled = self.child.count < 5 ? true : false
         sender.imageView?.alpha = self.child.count < 5  ? 1.0 : 0.2
+        if child.count == 5 {
+            mainView.deleteAllChildButtonStackView.alpha = .zero
+            mainView.stackView.addArrangedSubview(mainView.deleteAllChildButtonStackView)
+            UIView.animate(withDuration: 0.5) {
+                self.mainView.stackView.subviews.last!.isHidden = false
+                self.mainView.stackView.subviews.last!.alpha = 1.0
+            }
+        }
     }
     
     private func delete(indexPath: IndexPath) {
         self.child.remove(at: indexPath.row)
         self.mainView.childrenTableView.deleteRows(at: [indexPath], with: .middle)
-        self.mainView.childrenTableView.reloadData()
+        DispatchQueue.main.async {
+            UIView.performWithoutAnimation {
+                self.mainView.childrenTableView.reloadSections(IndexSet(integer: .zero), with: .none)
+                self.mainView.childrenTableView.beginUpdates()
+                self.mainView.childrenTableView.endUpdates()
+            }
+        }
         self.mainView.addChildButton.isEnabled = self.child.count < 5  ? true : false
         self.mainView.addChildButton.imageView?.alpha = self.child.count < 5  ? 1.0 : 0.2
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.5, delay: .zero, options: [.curveEaseOut], animations: {
+            self.mainView.deleteAllChildButtonStackView.isHidden = true
+            self.mainView.deleteAllChildButtonStackView.alpha = .zero
+            self.mainView.stackView.layoutIfNeeded()
+        }, completion: { _ in
+            self.mainView.stackView.removeArrangedSubview(self.mainView.deleteAllChildButtonStackView)
+            self.mainView.deleteAllChildButtonStackView.removeFromSuperview()
+        })
     }
     
     private func clearData() {
         UIView.animate(withDuration: 0.5) {
             self.mainView.childrenTableView.alpha = .zero
-            self.mainView.deleteAllChildButton.alpha = .zero
+            self.mainView.deleteAllChildButtonStackView.alpha = .zero
         } completion: { _ in
             self.child.removeAll()
             DispatchQueue.main.async {
@@ -111,9 +140,8 @@ final class MainViewController: UIViewController {
             }
             self.mainView.addChildButton.isEnabled = true
             self.mainView.addChildButton.imageView?.alpha = 1.0
-            self.mainView.deleteAllChildButton.isHidden = true
-            self.mainView.childrenTableView.alpha = 1.0
-            self.mainView.deleteAllChildButton.alpha = 1.0
+            self.mainView.stackView.removeArrangedSubview(self.mainView.deleteAllChildButtonStackView)
+            self.mainView.deleteAllChildButtonStackView.removeFromSuperview()
         }
     }
 }
@@ -164,7 +192,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             cell.separatorInset = .zero
         }
-        mainView.deleteAllChildButton.isHidden = child.count < 5 ? true : false
         return cell
     }
     
@@ -200,13 +227,28 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 extension MainViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        let position: CGPoint = textField.convert(.zero, to: self.mainView.childrenTableView)
-        let indexPath = self.mainView.childrenTableView.indexPathForRow(at: position) ?? IndexPath(row: .zero, section: .zero)
-        let cell = mainView.childrenTableView.cellForRow(at: indexPath) as! ChildrenTableViewCell
+        let position: CGPoint = textField.convert(.zero, to: mainView.childrenTableView)
+        let indexPath = mainView.childrenTableView.indexPathForRow(at: position)
+        guard indexPath != nil else { return }
+        let cell = mainView.childrenTableView.cellForRow(at: indexPath!) as! ChildrenTableViewCell
         if textField == cell.nameTextField {
-            child[indexPath.row].name = textField.text ?? ""
-        } else {
-            child[indexPath.row].age = Int(textField.text ?? "") ?? .zero
+            child[indexPath!.row].name = textField.text ?? ""
+        } else if textField == cell.ageTextField {
+            child[indexPath!.row].age = Int(textField.text ?? "") ?? .zero
         }
+        DispatchQueue.main.async {
+            UIView.performWithoutAnimation {
+                self.mainView.childrenTableView.reloadSections(IndexSet(integer: .zero), with: .none)
+                self.mainView.childrenTableView.beginUpdates()
+                self.mainView.childrenTableView.endUpdates()
+            }
+        }
+    }
+}
+
+extension MainViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        hideKeyboard()
     }
 }
