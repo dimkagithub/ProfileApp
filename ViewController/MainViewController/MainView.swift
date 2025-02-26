@@ -244,13 +244,12 @@ final class MainView: UIView {
         var view = UILabel()
         view.font = UIFont.systemFont(ofSize: 20.0.fit)
         view.textColor = .lightGray
-        view.numberOfLines = 1
+        view.numberOfLines = .zero
         view.textAlignment = .center
         view.text = "Дети не добавлены"
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
