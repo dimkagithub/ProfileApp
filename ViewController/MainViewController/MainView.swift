@@ -240,6 +240,18 @@ final class MainView: UIView {
         return view
     }()
     
+    public lazy var noChildrenTitle: UILabel = {
+        var view = UILabel()
+        view.font = UIFont.systemFont(ofSize: 20.0.fit)
+        view.textColor = .lightGray
+        view.numberOfLines = 1
+        view.textAlignment = .center
+        view.text = "Дети не добавлены"
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    
     private func setupLayout() {
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20.0.fit),

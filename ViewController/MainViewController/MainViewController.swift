@@ -23,6 +23,7 @@ final class MainViewController: UIViewController {
         
         setupGesture()
         setupTableView()
+        isChildrenAdded(status: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,6 +94,9 @@ final class MainViewController: UIViewController {
         }
         sender.isEnabled = self.child.count < 5 ? true : false
         sender.imageView?.alpha = self.child.count < 5  ? 1.0 : 0.2
+        if !child.isEmpty {
+            isChildrenAdded(status: true)
+        }
         if child.count == 5 {
             mainView.deleteAllChildButtonStackView.alpha = .zero
             mainView.stackView.addArrangedSubview(mainView.deleteAllChildButtonStackView)
@@ -104,8 +108,8 @@ final class MainViewController: UIViewController {
     }
     
     private func delete(indexPath: IndexPath) {
-        self.child.remove(at: indexPath.row)
-        self.mainView.childrenTableView.deleteRows(at: [indexPath], with: .middle)
+        child.remove(at: indexPath.row)
+        mainView.childrenTableView.deleteRows(at: [indexPath], with: .middle)
         DispatchQueue.main.async {
             UIView.performWithoutAnimation {
                 self.mainView.childrenTableView.reloadSections(IndexSet(integer: .zero), with: .none)
@@ -113,8 +117,11 @@ final class MainViewController: UIViewController {
                 self.mainView.childrenTableView.endUpdates()
             }
         }
-        self.mainView.addChildButton.isEnabled = self.child.count < 5  ? true : false
-        self.mainView.addChildButton.imageView?.alpha = self.child.count < 5  ? 1.0 : 0.2
+        mainView.addChildButton.isEnabled = self.child.count < 5  ? true : false
+        mainView.addChildButton.imageView?.alpha = self.child.count < 5  ? 1.0 : 0.2
+        if child.isEmpty {
+            isChildrenAdded(status: false)
+        }
         UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.5, delay: .zero, options: [.curveEaseOut], animations: {
             self.mainView.deleteAllChildButtonStackView.isHidden = true
             self.mainView.deleteAllChildButtonStackView.alpha = .zero
@@ -138,10 +145,28 @@ final class MainViewController: UIViewController {
                     self.mainView.childrenTableView.endUpdates()
                 })
             }
+            self.isChildrenAdded(status: false)
             self.mainView.addChildButton.isEnabled = true
             self.mainView.addChildButton.imageView?.alpha = 1.0
             self.mainView.stackView.removeArrangedSubview(self.mainView.deleteAllChildButtonStackView)
             self.mainView.deleteAllChildButtonStackView.removeFromSuperview()
+        }
+    }
+    
+    private func isChildrenAdded(status: Bool) {
+        switch status {
+        case true:
+            mainView.noChildrenTitle.removeFromSuperview()
+        case false:
+            mainView.noChildrenTitle.alpha = .zero
+            mainView.addSubview(mainView.noChildrenTitle)
+            NSLayoutConstraint.activate([
+                mainView.noChildrenTitle.centerYAnchor.constraint(equalTo: mainView.childrenTableView.centerYAnchor),
+                mainView.noChildrenTitle.centerXAnchor.constraint(equalTo: mainView.childrenTableView.centerXAnchor)
+            ])
+            UIView.animate(withDuration: 0.5) {
+                self.mainView.noChildrenTitle.alpha = 1.0
+            }
         }
     }
 }
